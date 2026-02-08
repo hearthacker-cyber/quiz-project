@@ -49,6 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['auto'])) {
                 $score += $correct_answers[$q_id]['marks'];
             }
         }
+        
+        // Insert User Answer
+        $ansStmt = $pdo->prepare("INSERT INTO user_answers (user_id, quiz_id, question_id, selected_option_id, attempt_id) VALUES (?, ?, ?, ?, ?)");
+        $ansStmt->execute([$_SESSION['user_id'], $quiz_id, $q_id, $user_opt_id, $attempt_id]);
     }
     
     // Calculate Percentage (based on total marks, or total questions? Requirements say "Percentage")
